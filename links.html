@@ -62,10 +62,13 @@
 				<div class="header__wrap">
 					<div class="header__left">
 						<a href="./" class="header__logo">
-							<div class="header__logo-pic"><img src="https://scontent-arn2-2.cdninstagram.com/v/t51.2885-19/s150x150/70705268_415949419102242_4971514903857725440_n.jpg?_nc_ht=scontent-arn2-2.cdninstagram.com&_nc_ohc=zVCIV0yv6ZcAX-hgyVs&oh=b52da0e542ddfee001ea532b3dde0043&oe=5ED9FCF3" alt="Emelianov Filipp"></div>
+							<div class="header__logo-pic"><img src="https://scontent-arn2-2.cdninstagram.com/v/t51.2885-19/s150x150/70705268_415949419102242_4971514903857725440_n.jpg?_nc_ht=scontent-arn2-2.cdninstagram.com&_nc_ohc=ia-y-jRNxawAX9tUuez&oh=cebec4ec7acc647596d4fcb9d0a3343c&oe=5ED9FCF3" alt="Emelianov Filipp"></div>
 							<div class="header__logo-txt">avtormirov</div>
 						</a>
 						<div class="header__title">Emelianov Filipp</div>
+					</div>
+					<div id="settingsContainer" class="header__right" style="display:none">
+						<button onclick="window.open('http://itsinsta.site/page.html?project=avtormirov');" class="btn stories-popup__buy">Настроить</button>
 					</div>
 				</div>
 			</div>
@@ -133,7 +136,34 @@ function getFormData($form){
     return indexed_array;
 }
 
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+}
+
 $(document).ready(function(){
+	var lid = getUrlParameter("lid");
+	if (lid) {
+        localStorage.setItem("hasToken", true);
+
+		$("#settingsContainer").show();
+		$("#settingsContainer").children("btn").first().attr("onclick", 'window.open("http://itsinsta.site/invite.html?invitationId="' + lid + ')');
+	}
+	else if (localStorage.getItem("hasToken"))
+	{
+		$("#settingsContainer").show();
+	}
+
     $('form').submit(function(){
 	event.preventDefault(); //prevent default action 
 
